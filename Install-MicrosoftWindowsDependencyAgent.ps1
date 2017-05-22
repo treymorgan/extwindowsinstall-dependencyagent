@@ -40,6 +40,8 @@ Set-Location -Path $TempDirectory
 #Check Microsoft Dependency Agent Status
 $MicrosoftDependencyAgentServiceStatus = Get-Service -Name MicrosoftDependencyAgent
 
+#sleep for 2 min
+Start-Sleep -Seconds 120
 
 #Log an event in the windows application event log indicating the success of failure of the agent installation (this can be picked up by OMS)
 If ($MicrosoftDependencyAgentServiceStatus.Status.count -gt 0) {
@@ -55,3 +57,6 @@ $Message =  "The Microsoft Dependency Agent service was not detected or an error
 
 Write-EventLog -LogName Application -Source "MSDependencyAgent" -EntryType Warning -EventID 2 -Message $Message 
 }
+
+#wipe the install directory
+Remove-Item 'C:\Temp2' -Force -Recurse
