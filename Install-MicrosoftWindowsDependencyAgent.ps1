@@ -4,9 +4,16 @@
   The following script will install the Microsoft Windows Dependency Agent 
 
 .DESCRIPTION
-  <Brief description of script>
+  This script is used in combination with an ARM Custom Script Extension deployment to install the Microsoft Dependency Agent for Windows
+
+.LOCATION
+The following script is located here: https://raw.githubusercontent.com/treymorgan/extwindowsinstall-dependencyagent/master/Install-MicrosoftWindowsDependencyAgent.ps1 
 
 #>
+
+#Creates New Event Log Source if it does not already exist
+New-EventLog -LogName Application -Source "MSDependencyAgent" -ErrorAction SilentlyContinue
+
 
 #Script Variables
 $TempDirectory = "C:\Temp2\DependencyAgentWindows\"
@@ -29,3 +36,22 @@ Set-Location -Path $TempDirectory
 
 #Peform a Silent installation of the Microsoft Dependency Agent
 ./InstallDependencyAgent-Windows.exe /S
+
+#Check Microsoft Dependency Agent Status
+$MicrosoftDependencyAgentServiceStatus = Get-Service -Name MicrosoftDependencyAgent
+
+
+#Log an event in the windows application event log indicating the success of failure of the agent installation (this can be picked up by OMS)
+If ($MicrosoftDependencyAgentServiceStatus.Status.count -gt 0) {
+$MicrosoftDependencyAgentServiceStatusStatus = $MicrosoftDependencyAgentServiceStatus.Status
+$Message =  "The Microsoft Dependency Agent is installed and in a $MicrosoftDependencyAgentServiceStatusStatus state" | Out-String
+
+Write-EventLog -LogName Application -Source "MSDependencyAgent" -EntryType Information -EventID 1 -Message $Message 
+}
+
+Else {
+
+$Message =  "The Microsoft Dependency Agent service was not detected or an error occurred while attempting to detect the agent service" | Out-String
+
+Write-EventLog -LogName Application -Source "MSDependencyAgent" -EntryType Warning -EventID 2 -Message $Message 
+}
