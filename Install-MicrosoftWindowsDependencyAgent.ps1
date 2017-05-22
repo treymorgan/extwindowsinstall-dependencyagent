@@ -41,7 +41,7 @@ Set-Location -Path $TempDirectory
 $MicrosoftDependencyAgentServiceStatus = Test-Path -Path "C:\Program Files\Microsoft Dependency Agent\bin\MicrosoftDependencyAgent.exe"
 
 #sleep for 2 min
-Start-Sleep -Seconds 120
+Start-Sleep -Seconds 60
 
 #Log an event in the windows application event log indicating the success of failure of the agent installation (this can be picked up by OMS)
 If ($MicrosoftDependencyAgentServiceStatus.count -gt 0) {
