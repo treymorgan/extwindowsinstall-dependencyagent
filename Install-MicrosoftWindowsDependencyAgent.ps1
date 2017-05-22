@@ -16,7 +16,7 @@ New-EventLog -LogName Application -Source "MSDependencyAgent" -ErrorAction Silen
 
 
 #Script Variables
-$TempDirectory = "C:\Temp2\DependencyAgentWindows\"
+$TempDirectory = "C:\Temp\DependencyAgentWindows\"
 $MSDependencyAgentMediaURL = "https://aka.ms/dependencyagentwindows"
 $MediaFileName = $TempDirectory + "InstallDependencyAgent-Windows.exe"
 $URLofPSInstallScript = "https://raw.githubusercontent.com/treymorgan/extwindowsinstall-dependencyagent/master/Install-MicrosoftWindowsDependencyAgent.ps1"
@@ -58,3 +58,6 @@ $Message =  "The Microsoft Dependency Agent was not detected or an error occurre
 Write-EventLog -LogName Application -Source "MSDependencyAgent" -EntryType Warning -EventID 2 -Message $Message 
 }
 
+#remove the install media
+$FilePath = $TempDirectory + "InstallDependencyAgent-Windows.exe"
+Remove-Item $FilePath -Force
