@@ -8,6 +8,7 @@
 
 #>
 
+#Script Variables
 $TempDirectory = "C:\Temp2\DependencyAgentWindows\"
 $MSDependencyAgentMediaURL = "https://aka.ms/dependencyagentwindows"
 $MediaFileName = $TempDirectory + "InstallDependencyAgent-Windows.exe"
