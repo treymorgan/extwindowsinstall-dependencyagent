@@ -1,1 +1,1 @@
-These scripts will install the Micrsoft Dependency Agent on Azure Windows Virtual Machines
+These scripts will install the Microsoft Dependency Agent on Azure Windows Virtual Machines
