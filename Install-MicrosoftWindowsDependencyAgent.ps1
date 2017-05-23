@@ -26,7 +26,7 @@ $PSInstallScriptName = $TempDirectory + "Install-MicrosoftWindowsDependencyAgent
 $InitialMicrosoftDependencyAgentServiceStatus = Test-Path -Path "C:\Program Files\Microsoft Dependency Agent\bin\MicrosoftDependencyAgent.exe"
 
 #Check to see if the Dependency Agent is already installed and exit if needed
-If ($InitialMicrosoftDependencyAgentServiceStatus.count -gt 0) {
+If ($InitialMicrosoftDependencyAgentServiceStatus -like "True") {
 
 $Message =  "The Microsoft Dependency Agent is already installed.  Aborting installation attempt" | Out-String
 
@@ -59,7 +59,7 @@ $MicrosoftDependencyAgentServiceStatus = Test-Path -Path "C:\Program Files\Micro
 Start-Sleep -Seconds 60
 
 #Log an event in the windows application event log indicating the success of failure of the agent installation (this can be picked up by OMS)
-If ($MicrosoftDependencyAgentServiceStatus.count -gt 0) {
+If ($MicrosoftDependencyAgentServiceStatus -like "True") {
 
 $Message =  "The Microsoft Dependency Agent is installed" | Out-String
 
