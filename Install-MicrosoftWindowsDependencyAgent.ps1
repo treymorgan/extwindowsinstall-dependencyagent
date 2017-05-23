@@ -62,6 +62,9 @@ Set-Location -Path $TempDirectory
 #Peform a Silent installation of the Microsoft Dependency Agent
 ./InstallDependencyAgent-Windows.exe /S
 
+#wait 90 seconds
+Start-Sleep -Seconds 90
+
 #Check Microsoft Dependency Agent Status
 $MicrosoftDependencyAgentServiceStatus = Test-Path -Path "C:\Program Files\Microsoft Dependency Agent\bin\MicrosoftDependencyAgent.exe"
 
