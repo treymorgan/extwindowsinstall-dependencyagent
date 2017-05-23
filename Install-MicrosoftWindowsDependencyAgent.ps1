@@ -83,7 +83,7 @@ $Message = $Installresults.message
 
 $results = Install-DependencyAgent
 
-
+$results | Export-Csv -Path C:\Temp\finalresult.csv -Force -NoTypeInformation
 <#
 #Removes the ARM Custom Script Extension that installs the Microsoft Dependency Agent for Windows
 
