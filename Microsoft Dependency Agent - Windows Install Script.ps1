@@ -21,6 +21,8 @@ The following script is located here: https://raw.githubusercontent.com/treymorg
 
 #Login to Azure
 #Add-AzureRMAccount -EnvironmentName $env
+#Change to the relevant Subscription
+#Select-AzureRmSubscription -SubscriptionName "Azure Subscription 1" -TenantId "XXXX"
 #endregion
 
 #region Declare Variables
