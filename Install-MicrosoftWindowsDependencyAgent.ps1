@@ -22,6 +22,21 @@ $MediaFileName = $TempDirectory + "InstallDependencyAgent-Windows.exe"
 $URLofPSInstallScript = "https://raw.githubusercontent.com/treymorgan/extwindowsinstall-dependencyagent/master/Install-MicrosoftWindowsDependencyAgent.ps1"
 $PSInstallScriptName = $TempDirectory + "Install-MicrosoftWindowsDependencyAgent.ps1"
 
+#Check Microsoft Dependency Agent Status
+$InitialMicrosoftDependencyAgentServiceStatus = Test-Path -Path "C:\Program Files\Microsoft Dependency Agent\bin\MicrosoftDependencyAgent.exe"
+
+#Check to see if the Dependency Agent is already installed and exit if needed
+If ($InitialMicrosoftDependencyAgentServiceStatus.count -gt 0) {
+
+$Message =  "The Microsoft Dependency Agent is already installed.  Aborting installation attempt" | Out-String
+
+Write-EventLog -LogName Application -Source "MSDependencyAgent" -EntryType Information -EventID 3 -Message $Message 
+
+exit 1
+}
+
+Else {
+
 #Create temporary directory to store the script and installation media
 New-Item $TempDirectory -type directory -Force
 
@@ -45,7 +60,7 @@ Start-Sleep -Seconds 60
 
 #Log an event in the windows application event log indicating the success of failure of the agent installation (this can be picked up by OMS)
 If ($MicrosoftDependencyAgentServiceStatus.count -gt 0) {
-$MicrosoftDependencyAgentServiceStatusStatus = $MicrosoftDependencyAgentServiceStatus.Status
+
 $Message =  "The Microsoft Dependency Agent is installed" | Out-String
 
 Write-EventLog -LogName Application -Source "MSDependencyAgent" -EntryType Information -EventID 1 -Message $Message 
@@ -61,3 +76,4 @@ Write-EventLog -LogName Application -Source "MSDependencyAgent" -EntryType Warni
 #remove the install media
 $FilePath = $TempDirectory + "InstallDependencyAgent-Windows.exe"
 Remove-Item $FilePath -Force
+}
